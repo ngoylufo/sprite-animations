@@ -1,4 +1,5 @@
 export const keys = {
+  KeyQ: false,
   ArrowUp: false,
   ArrowDown: false,
   ArrowLeft: false,

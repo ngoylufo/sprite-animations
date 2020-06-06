@@ -7,7 +7,7 @@ const canvas = document.querySelector('#canvas');
 const looper = createLooper(canvas);
 const characters = [adventurer];
 
-const global = { particles: [] };
+const global = { particles: [], stance: 'casual' };
 
 class Particle {
   constructor(pos, speed, size, colour) {
@@ -60,10 +60,14 @@ window.addEventListener('keydown', () => {
   if (keys.ArrowRight) {
     characters.forEach((sprite) => sprite.animations.play('run'));
   }
+
+  if (keys.KeyQ) {
+    characters.forEach((sprite) => sprite.animations.play('draw-sword'));
+  }
 });
 
 window.addEventListener('keyup', () => {
-  if (!keys.ArrowUp && !keys.ArrowDown && !keys.ArrowLeft && !keys.ArrowRight) {
+  if (Object.values(keys).every(x => x === false)) {
     characters.forEach((sprite) => sprite.animations.play('idle'));
   }
 });
