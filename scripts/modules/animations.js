@@ -35,14 +35,15 @@ export class Animation {
       this.index = this.index === this.frames.length - 1 ? 0 : this.index + 1;
 
       if (this.index === 0 && frameSetLength > 1) {
-        if (this.rowIndex === frameSetLength) {
+        if (this.rowIndex === frameSetLength - 1) {
           this.rowIndex = 0;
         } else {
-          this.rowIndex += 1;
+          this.rowIndex = this.rowIndex + 1; 
         }
       }
-
+      
       this.frames = this.frameSet[this.rowIndex][1];
+      this.row = this.frameSet[this.rowIndex][0];
       this.frame = this.frames[this.index];
       this.count = 0;
     }
