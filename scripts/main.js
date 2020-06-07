@@ -109,5 +109,5 @@ looper((ctx) => {
   characters.forEach((sprite) => sprite.render(ctx));
 
   global.particles.map((p) => p.update(canvas.getContext('2d')));
-  global.particles.filter((p) => p.size > 2);
+  global.particles = global.particles.filter((p) => p.size > 2);
 })();
