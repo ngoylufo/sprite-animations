@@ -51,12 +51,16 @@ export const memoizeAsync = (fn) => {
 };
 
 export const unfold = (fn, seed) => {
-  const go = (fn, seed, acc) => {
-    const res = fn(seed);
-    return res ? go(fn, res[1], acc.concat([res[0]])) : acc;
-  };
+  function* go(fn, seed) {
+    let result = fn(seed);
 
-  return go(fn, seed, []);
+    while(result) {
+      yield result[0];
+      result = fn(result[1]);
+    }
+  }
+
+  return [...go(fn, seed)];
 };
 
 // Additional Utility Functions
