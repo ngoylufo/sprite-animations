@@ -50,9 +50,7 @@ class Particle {
       this.size -= 0.05;
     }
 
-    if (this.size > 0) {
-      this.render(ctx);
-    }
+    this.render(ctx)
   }
 }
 
@@ -73,19 +71,20 @@ window.addEventListener('keyup', () => {
 });
 
 const makeParticles = (n) => {
+  const { x, y } = adventurer.position;
+  const { height } = adventurer.dimensions;
+
+  const colours = [
+    'rgba(93, 54, 10, 0.1)',
+    'rgba(93, 54, 10, 0.2)',
+    'rgba(93, 54, 10, 0.3)',
+  ];
+
   return utils.unfold((number) => {
     if (!number) return null;
-    const { x, y } = adventurer.position;
-    const { height } = adventurer.dimensions;
-
-    const colours = [
-      'rgba(93, 54, 10, 0.1)',
-      'rgba(93, 54, 10, 0.2)',
-      'rgba(93, 54, 10, 0.3)',
-    ];
-
+    
     const size = utils.random(5)(10);
-    const speed = { x: utils.random(-0.5)(0.5), y: utils.random(-2)(0) };
+    const speed = { x: utils.random(-1)(1), y: utils.random(-2)(0) };
 
     const px = utils.random(x)(x + 100);
     const pos = { x: px, y: y + adventurer.scaled(height - 3) };
@@ -100,7 +99,7 @@ const makeParticles = (n) => {
 global.particles = makeParticles(2);
 
 adventurer.onAnimation('run', (sprite) => {
-  global.particles.push(...makeParticles(1));
+  global.particles = [...global.particles, ...makeParticles(1)];
 });
 
 looper((ctx) => {
@@ -108,6 +107,6 @@ looper((ctx) => {
   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   characters.forEach((sprite) => sprite.render(ctx));
 
-  global.particles.map((p) => p.update(canvas.getContext('2d')));
+  global.particles.map((p) => p.update(ctx));
   global.particles = global.particles.filter((p) => p.size > 2);
 })();
