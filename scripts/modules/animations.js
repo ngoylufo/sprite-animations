@@ -1,13 +1,5 @@
+import * as utils from './utils.js';
 import EventScribe from './eventscribe.js';
-
-const unfold = (fn, seed) => {
-  const go = (fn, seed, acc) => {
-    const res = fn(seed);
-    return res ? go(fn, res[1], acc.concat([res[0]])) : acc;
-  };
-
-  return go(fn, seed, []);
-};
 
 const parseFrames = (data) => {
   const frames = data.map((x) => x.split(':').map((x) => +x));
@@ -15,7 +7,7 @@ const parseFrames = (data) => {
 
   return frames.reduce((a, b) => {
     const fr = b.slice(1);
-    return [...a, [b[0], unfold(fn(fr[0]), fr[fr.length - 1]).reverse()]];
+    return [...a, [b[0], utils.unfold(fn(fr[0]), fr[fr.length - 1]).reverse()]];
   }, []);
 };
 
