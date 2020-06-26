@@ -1,10 +1,10 @@
 import { keys } from './keypress.js';
 import * as utils from './modules/utils.js';
-import { createLooper } from './modules/kanvas.js';
+import * as kanvas from './modules/kanvas.js';
 import { adventurer } from './characters/index.js';
 
 const canvas = document.querySelector('#canvas');
-const looper = createLooper(canvas);
+const looper = kanvas.initialize(canvas);
 const characters = [adventurer];
 
 const global = { particles: [], stance: 'casual' };
