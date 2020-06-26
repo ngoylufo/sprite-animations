@@ -50,7 +50,7 @@ class Particle {
       this.size -= 0.05;
     }
 
-    this.render(ctx)
+    this.render(ctx);
   }
 }
 
@@ -65,7 +65,7 @@ window.addEventListener('keydown', () => {
 });
 
 window.addEventListener('keyup', () => {
-  if (Object.values(keys).every(x => x === false)) {
+  if (Object.values(keys).every((x) => x === false)) {
     characters.forEach((sprite) => sprite.animations.play('idle'));
   }
 });
@@ -82,7 +82,7 @@ const makeParticles = (n) => {
 
   return utils.unfold((number) => {
     if (!number) return null;
-    
+
     const size = utils.random(5)(10);
     const speed = { x: utils.random(-1)(1), y: utils.random(-2)(0) };
 

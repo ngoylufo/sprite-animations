@@ -30,10 +30,10 @@ export class Animation {
         if (this.rowIndex === frameSetLength - 1) {
           this.rowIndex = 0;
         } else {
-          this.rowIndex = this.rowIndex + 1; 
+          this.rowIndex = this.rowIndex + 1;
         }
       }
-      
+
       this.frames = this.frameSet[this.rowIndex][1];
       this.row = this.frameSet[this.rowIndex][0];
       this.frame = this.frames[this.index];
