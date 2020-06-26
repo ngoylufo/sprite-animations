@@ -1,4 +1,4 @@
-import { partial } from './utils.js';
+import * as utils from './utils.js';
 
 function setFullscreen(canvas) {
   Object.assign(canvas, { width: innerWidth, height: innerHeight });
@@ -52,7 +52,7 @@ export function createLooper(canvas) {
     };
 
     const finiteLoop = (n = 0) => {
-      if (n > 0) requestAnimationFrame(partial(finiteLoop, --n));
+      if (n > 0) requestAnimationFrame(utils.partial(finiteLoop, --n));
       callback(context);
     };
 
