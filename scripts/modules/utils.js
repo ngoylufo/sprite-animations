@@ -79,6 +79,6 @@ export const randomElement = (arr) => {
 export const square = (a) => a * a;
 
 export const calculateDistance = (a, b) => {
-  const [x, y] = is(Array)(a) ? [0, 1] : ['x', 'y'];  
-  return Math.sqrt(square(a[x] - b[x]) + square(a[y] - b[y]));
+  const [x, y] = is(Array)(a) ? [0, 1] : ['x', 'y'];
+  return Math.hypot(a[x] - b[x], a[y] - b[y]);
 };
