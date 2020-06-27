@@ -1,12 +1,10 @@
 import { Animations, Animation } from './animations.js';
 import * as utils from './utils.js';
 
-const image = utils.memoize((src) => Object.assign(new Image(), { src }));
-
 export class Sprite {
   constructor(source, width, height, { scale = 1, x = 0, y = 0 }) {
     this.dimensions = { width, height };
-    this.image = image(source);
+    this.image = utils.createImage({ src: source });
     this.position = { x, y };
     this.scale = scale;
 
@@ -14,7 +12,7 @@ export class Sprite {
   }
 
   changeImage(source) {
-    this.image = image(source);
+    this.image = utils.createImage({ src: source });
   }
 
   scaled(value) {

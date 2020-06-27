@@ -63,7 +63,14 @@ export const unfold = (fn, seed) => {
   return [...go(fn, seed)];
 };
 
+// Dom Related Utility Functions
+
+export const createImage = memoize(({ src }) => {
+  return Object.assign(new Image(), { src });
+});
+
 // Additional Utility Functions
+
 export const random = (min = 0) => {
   return (max = 100) => Math.random() * (max - min) + min;
 };
