@@ -15,6 +15,7 @@ export class Animation {
   constructor(frames, { delay = 20, interrupt = true }) {
     this.frameSet = parseFrames(frames);
     [this.row, this.frames] = this.frameSet[0];
+    this.frame = this.frames[0];
     Object.assign(this, { delay, count: 0, index: 0 });
     Object.assign(this, { interrupt, requestId: 0, rowIndex: 0 });
   }
