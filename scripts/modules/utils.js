@@ -19,6 +19,18 @@ export const curry = (fn) => {
   return curried;
 };
 
+/* The maybe combinator. TODO: write docs */
+export const maybe = (fn) => {
+  return function(...args) {
+    if (args.length > 0) {
+      if (args.some(arg => arg === undefined || arg === null)) {
+        return;
+      }
+      return fn.call(this, args);
+    }
+  };
+};
+
 /** Composes two or more (composable) functions into a single function. */
 export const compose = (...fns) => {
   return (x) => fns.reduceRight((arg, fn) => fn(arg), x);
