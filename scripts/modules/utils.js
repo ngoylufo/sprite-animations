@@ -32,10 +32,11 @@ export const pipe = (...fns) => {
 /** Returns a memoized version of the given function. */
 export const memoize = (fn) => {
   const cache = {};
+  const isCached = (key) => cache.hasOwnProperty(key);
 
-  return (...args) => {
-    const key = JSON.stringify(args);
-    return cache.hasOwnProperty(key) ? cache[key] : (cache[key] = fn(...args));
+  return function (...args) {
+    const k = JSON.stringify(args);
+    return isCached(k) ? cache[k] : (cache[k] = fn.call(this, args));
   };
 };
 
@@ -44,9 +45,9 @@ export const memoizeAsync = (fn) => {
   const cache = {};
   const isCached = (key) => cache.hasOwnProperty(key);
 
-  return async (...args) => {
-    const key = JSON.stringify(args);
-    return isCached(key) ? cache[key] : (cache[key] = await fn(...args));
+  return async function(...args) {
+    const k = JSON.stringify(args);
+    return isCached(k) ? cache[k] : (cache[k] = await fn.call(this, args));
   };
 };
 
