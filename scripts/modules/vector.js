@@ -32,6 +32,10 @@ export const limitY = (a, n) => {
   return [...a];
 };
 
+export const limitComponents = (a, b) => {
+  return limitX(limitY(a, b[1]), b[0]);
+}
+
 /* Vector Manipulation Functions */
 
 /** Add two vectors */
