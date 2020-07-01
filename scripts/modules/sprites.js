@@ -1,73 +1,74 @@
-import { Animations, Animation } from './animations.js';
 import * as utils from './utils.js';
+import { Animations, Animation } from './animations.js';
 
-export class Sprite {
-  constructor(source, width, height, { scale = 1, x = 0, y = 0 }) {
-    this.dimensions = { width, height };
-    this.image = utils.createImage({ src: source });
-    this.position = { x, y };
-    this.scale = scale;
+export function Sprite(filename, { width, height, scale = 1 }) {
+  this.image = utils.createImage({ src: filename });
+  Object.assign(this, { width, height });
 
-    this.initial = { position: { x, y }, dimensions: { width, height } };
-  }
-
-  changeImage(source) {
-    this.image = utils.createImage({ src: source });
-  }
-
-  scaled(value) {
-    return this.scale * value;
-  }
-
-  move(coordinates) {
-    this.position.x += coordinates[0];
-    this.position.y += coordinates[1];
-  }
-
-  render(context) {
-    context.drawImage(
-      this.image,
-      this.dimensions.width,
-      this.dimensions.height,
-      this.dimensions.width,
-      this.dimensions.height,
-      this.position.x,
-      this.position.y,
-      this.scaled(this.dimensions.width),
-      this.scaled(this.dimensions.height)
-    );
-  }
+  this.scale = utils.maybe(function (value) {
+    return scale * value;
+  });
 }
 
-export class AnimatedSprite extends Sprite {
-  constructor(image, width, height, { scale = 1, x = 0, y = 0 }) {
-    super(image, width, height, { scale, x, y });
-    this.animations = new Animations();
-  }
+Sprite.prototype.setImage = utils.maybe(function (filename) {
+  this.image = utils.createImage({ src: filename });
+});
 
-  onAnimation(name, callback) {
-    this.animations.on(name, utils.partial(callback, this));
-  }
+Sprite.prototype.render = utils.maybe(function (context, position) {
+  context.drawImage(
+    this.image,
+    this.width,
+    this.height,
+    this.width,
+    this.height,
+    position[0],
+    position[1],
+    this.scale(this.width),
+    this.scale(this.height)
+  );
+});
 
-  addAnimation(name, frames, { delay }) {
-    this.animations.register(name, new Animation(frames, { delay }));
-  }
-
-  removeAnimation(name) {
-    this.animations.unregister(name);
-  }
-
-  render(context) {
-    context.drawImage(
-      this.image,
-      this.animations.frame * this.dimensions.width,
-      (this.animations.row - 1) * this.dimensions.height,
-      this.dimensions.width,
-      this.dimensions.height,
-      this.position.x,
-      this.position.y,
-      this.scaled(this.dimensions.width),
-      this.scaled(this.dimensions.height)
-    );
-  }
+export function AnimatedSprite(filename, { width, height, scale }) {
+  Sprite.call(this, filename, { width, height, scale });
+  this.animations = new Animations();
 }
+
+AnimatedSprite.prototype = Object.create(Sprite.prototype);
+
+AnimatedSprite.prototype.playAnimation = utils.maybe(function (name) {
+  this.animations.play(name);
+});
+
+AnimatedSprite.prototype.stopAnimation = utils.maybe(function (name) {
+  this.animations.stop(name);
+});
+
+AnimatedSprite.prototype.onAnimation = utils.maybe(function (name, callback) {
+  this.animations.on(name, utils.partial(callback, this));
+});
+
+AnimatedSprite.prototype.addAnimation = utils.maybe(function (
+  name,
+  frames,
+  { delay }
+) {
+  this.animations.register(name, new Animation(frames, { delay }));
+});
+
+AnimatedSprite.prototype.removeAnimation = utils.maybe(function (name) {
+  this.animations.unregister(name);
+});
+
+AnimatedSprite.prototype.render = utils.maybe(function (context, position) {
+  context.drawImage(
+    this.image,
+    this.animations.frame * this.width,
+    this.animations.row * this.height,
+    this.width,
+    this.height,
+    position[0],
+    position[1],
+    this.scale(this.width),
+    this.scale(this.height)
+  );
+});
