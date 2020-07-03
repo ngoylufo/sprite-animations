@@ -26,7 +26,7 @@ export const maybe = (fn) => {
       if (args.some(arg => arg === undefined || arg === null)) {
         return;
       }
-      return fn.call(this, args);
+      return fn.call(this, ...args);
     }
   };
 };
@@ -48,7 +48,7 @@ export const memoize = (fn) => {
 
   return function (...args) {
     const k = JSON.stringify(args);
-    return isCached(k) ? cache[k] : (cache[k] = fn.call(this, args));
+    return isCached(k) ? cache[k] : (cache[k] = fn.call(this, ...args));
   };
 };
 
@@ -59,7 +59,7 @@ export const memoizeAsync = (fn) => {
 
   return async function(...args) {
     const k = JSON.stringify(args);
-    return isCached(k) ? cache[k] : (cache[k] = await fn.call(this, args));
+    return isCached(k) ? cache[k] : (cache[k] = await fn.call(this, ...args));
   };
 };
 
