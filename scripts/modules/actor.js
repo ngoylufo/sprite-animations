@@ -70,14 +70,14 @@ Actor.prototype.render = utils.maybe(function (context) {
   }
 
   if (this.position[0] > context.canvas.width) {
-    this.position[0] = 0 - this.sprite.dimensions.width;
-  } else if (this.position[0] < -this.sprite.dimensions.width) {
+    this.position[0] = 0 - this.sprite.width;
+  } else if (this.position[0] < -this.sprite.width) {
     this.position[0] = context.canvas.width;
   }
 
   if (this.position[1] > context.canvas.height) {
-    this.position[1] = 0 - this.sprite.dimensions.height;
-  } else if (this.position[1] < -this.sprite.dimensions.height) {
+    this.position[1] = 0 - this.sprite.height;
+  } else if (this.position[1] < -this.sprite.height) {
     this.position[1] = context.canvas.height;
   }
 
