@@ -42,25 +42,19 @@ export const pipe = (...fns) => {
 };
 
 /** Returns a memoized version of the given function. */
-export const memoize = (fn) => {
+export const memoize = (fn, serialize = JSON.stringify) => {
   const cache = {};
-  const isCached = (key) => cache.hasOwnProperty(key);
 
-  return function (...args) {
-    const k = JSON.stringify(args);
-    return isCached(k) ? cache[k] : (cache[k] = fn.call(this, ...args));
+  return (...args) => {
+    const key = serialize(args);
+    return cache[key] ?? (cache[key] = fn(...args));
   };
 };
 
 /** Returns a memoized version of the given asynchronous function. */
-export const memoizeAsync = (fn) => {
-  const cache = {};
-  const isCached = (key) => cache.hasOwnProperty(key);
-
-  return async function(...args) {
-    const k = JSON.stringify(args);
-    return isCached(k) ? cache[k] : (cache[k] = await fn.call(this, ...args));
-  };
+export const memoizeAsync = (fn, serialize = JSON.stringify) => {
+  const memo = memoize(fn, serialize);
+  return async (...args) => await memo(...args);
 };
 
 export const unfold = (fn, seed) => {
