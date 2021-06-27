@@ -1,0 +1,18 @@
+class Actor {
+    Sprite sprite;
+    Animation animation;
+
+	Actor(Sprite s, Animation a) {
+		sprite = s;
+		animation = a;
+	};
+}
+
+class Sprite {
+	Image image;
+
+	Sprite(Image i) {
+		image = i;
+	}
+}
+
